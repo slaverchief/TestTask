@@ -30,7 +30,7 @@ SECRET_KEY = eg('SECRET_KEY')
 # django-insecure-%&v9p3^$j*deqxc(1s8pmd96y47%de7f(bh4&120ow4v3c3xs1
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(eg('DEBUG'))
+DEBUG = int(bool(eg('DEBUG')))
 MAIN_HOST = eg('MAIN_HOST')
 HOST = MAIN_HOST + ':8000'
 if not DEBUG:
