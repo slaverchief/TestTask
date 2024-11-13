@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type='text/css' href="{% static 'main/css/main.css' %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+{% block main %}
+<header>
+    <nav>
+        {% include 'main/show_main_panel.html' %}
+    </nav>
+
+</header>
+
+
+{% endblock main %}
+
+
+
+{% block content %}
+{% endblock %}
+
+
+</body>
+</html>

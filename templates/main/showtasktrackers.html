@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+{% load static %}
+{% if request.user.is_authenticated%}
+<form method="post" action="{% url 'get_to_main' %}">
+    {% csrf_token %}
+    <button type="submit">Создать тасктрекер</button>
+</form>
+{% endif %}
+    <div class="model-list">
+        {% for task_tracker in tasktrackers %}
+        {% if request.user in task_tracker.cotributions.all %}
+        <div class="task-tracker">
+            <a href="{% url 'show_TT' task_tracker.pk %}">{{task_tracker.name}}</a>
+        </div>
+        <hr>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

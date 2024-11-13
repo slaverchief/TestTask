@@ -1,0 +1,28 @@
+{% load static %}
+    <a href = "{% url 'get_to_main' %}">
+    <button class="panel_buttons"><b class="text_in_button">Главная страница</b></button>
+    </a>
+    <div style="float:right;">
+        {% if request.user.is_authenticated %}
+             <b id="auth-data">{{request.user.username}}</b>
+        <a href='{% url "logout" %}'>
+            <button class="panel_buttons">Выйти</button>
+        </a>
+        {% else %}
+        <button class="panel_buttons" onclick="signup_click()">Зарегистрироваться</button>
+          <button class="panel_buttons" onclick="login_click()">Войти</button>
+        {% endif %}
+    </div>
+
+     <div style="float: right;">
+
+     <div id="signup_container" hidden>
+         {% include 'authsys/register.html' %}
+     </div>
+
+     <div id="login_container"  hidden>
+         {% include 'authsys/login.html' %}
+     </div>
+
+     </div>
+    <script src="{% static 'authsys/js/quick_auth_panel.js' %}" type="text/javascript"></script>

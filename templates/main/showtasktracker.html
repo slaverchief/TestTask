@@ -1,0 +1,83 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<div>
+    {% csrf_token %}
+    {% if request.user == tt.creator %}
+    <input id="tt_name_inp" type="text" value='{{tt.name}}'>
+    <button onclick="rename({{tt.pk}})">Переименовать</button>
+    {% else %}
+    <h1>{{tt.name}}</h1>
+    {% endif%}
+  {% if tt.creator == request.user %}
+  <div id="url-join">URL для приглашения, отправьте его кому-то, кого вы хотите добавить в тасктрекер: {{HOST}}/join/{{tt.join_slug}}</div>
+  {% endif %}
+  <div id="tasks" class="model-list">
+    <h2>Задачи:</h2>
+      {% if request.user == tt.creator %}
+    <form method="post" action="{% url 'show_TT' tt.pk %}">
+      {% csrf_token %}
+      <input onkeyup="make_create_task_button_active()" id='task_name_input' name="name" type="text" placeholder="Введите название задачи">
+      <button id="create_task_button"  disabled type="submit">Создать задачу</button>
+    </form>
+    {% endif %}
+    {% for task in tt.tasks.all %}
+    <div class="task" id="task_{{task.pk}}">
+        <div class="task-header">
+          <h3>Задача {{task.name}}</h3>
+          <div class="functionality-task">
+             {% if request.user == task.executor and not task.is_executed%}
+            <button onclick="mark_as_executed({{task.pk}})">Отметить выполненной</button>
+            {% endif %}
+            {% if request.user == tt.creator %}
+            <button onclick="delete_task({{task.pk}})">Удалить задачу</button>
+            {% if task.is_executed %}
+            <button onclick="mark_as_checked({{task.pk}})">Обозначить проверенной</button>
+            {% endif %}
+            {% endif %}
+            {% if request.user == tt.creator %}
+            <select onchange="make_assign_button_active({{task.pk}})" id="select_{{task.pk}}">
+              {% if not task.executor %}
+              <option selected value="-1">Исполнитель не выбран</option>
+              {% endif %}
+              {% for contributor in contributors %}
+              {% if task.executor == contributor %}
+              <option selected value={{contributor.pk}}>{{contributor.username}}</option>
+              {% else %}
+              <option value={{contributor.pk}}>{{contributor.username}}</option>
+              {% endif %}
+              {% endfor %}
+            </select><button onclick="assign_contributor({{task.pk}})" disabled id="button_{{task.pk}}">Назначить исполнителя</button>
+            {% endif %}
+          </div>
+      </div>
+      <div id="warning_reload_{{task.pk}}" hidden style="color: red;">Данные поменялись, перезагрузите страницу</div>
+      <div class="status_bar" id="status_bar_{{task.pk}}">
+        {% for status in task.task_statuses.all %}
+        <div class="status">
+            <div class="status_header">{{status.get_string_status}}</div>
+            <div>
+              {{status.executor.username}}
+              {{status.date}}
+            </div>
+            </div>
+
+        {% endfor %}
+      </div>
+      <div class="desc" id="desc_{{task.pk}}">
+        {% if tt.creator == request.user %}
+        <textarea id="desc_text_{{task.pk}}">{{task.desc}}</textarea>
+        <button onclick="edit_desc({{task.pk}})">Изменить описание</button>
+        {% else %}
+        {{task.desc}}
+        {% endif %}
+      </div>
+      <hr>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+<script src="{% static 'main/js/detail_tt.js' %}"></script>
+{% endblock %}

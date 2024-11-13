@@ -1,0 +1,52 @@
+
+.status_bar{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.status_header{
+    font-weight: bold;
+    text-align: center;
+}
+
+.status{
+    margin-right: 15px;
+
+}
+
+nav{
+    margin-bottom: 15px;
+}
+
+.model-list{
+    margin-top: 15px;
+    font-size: 200%;
+
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.functionality-task{
+    width: 50%;
+    
+}
+
+.task-header{
+    display: flex;
+    align-content:baseline;
+    vertical-align: middle;
+}
+
+#url-join{
+    font-weight: bold;
+    font-size: 120%;
+}
+
+.desc > textarea{
+    width: 30%;
+    height: 50%;
+    font-size: 60%;
+}
