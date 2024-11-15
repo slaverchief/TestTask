@@ -52,7 +52,7 @@ def create_tasktracker(request):
     tt.cotributions.add(request.user)
     return redirect("get_to_main")
 
-@login_required
+@login_required(login_url='../auth/login')
 def join_contribution(request, join_slug):
     try:
         tt = TaskTracker.objects.get(join_slug=join_slug)

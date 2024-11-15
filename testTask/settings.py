@@ -30,7 +30,7 @@ SECRET_KEY = eg('SECRET_KEY')
 # django-insecure-%&v9p3^$j*deqxc(1s8pmd96y47%de7f(bh4&120ow4v3c3xs1
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 0
+DEBUG = bool(int(eg('DEBUG')))
 MAIN_HOST = eg('MAIN_HOST')
 HOST = MAIN_HOST + ':8000'
 if not DEBUG:
@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -126,7 +125,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 # Default primary key field type
